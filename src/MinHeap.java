@@ -3,12 +3,15 @@ public class MinHeap {
     private int[] heap;
     private int size;
 
+    ///
+    private long comparisons;
+    ///
+
     public MinHeap() {
         heap = new int[10];
         size = 0;
     }
 
-    // insert(x)
     public void insert(int value) {
         if (size == heap.length) {
             resize();
@@ -18,9 +21,12 @@ public class MinHeap {
         int index = size;
         size++;
 
-        // Move element upward
         while (index > 0) {
             int parent = (index - 1) / 2;
+
+            ///
+            comparisons++;
+            ///
 
             if (heap[parent] <= heap[index]) {
                 break;
@@ -31,7 +37,6 @@ public class MinHeap {
         }
     }
 
-    // peekMin()
     public int peekMin() {
         if (size == 0) {
             throw new IllegalStateException("Heap is empty");
@@ -40,7 +45,6 @@ public class MinHeap {
         return heap[0];
     }
 
-    // extractMin()
     public int extractMin() {
         if (size == 0) {
             throw new IllegalStateException("Heap is empty");
@@ -53,18 +57,29 @@ public class MinHeap {
 
         int index = 0;
 
-        // Move element downward
         while (true) {
             int left = 2 * index + 1;
             int right = 2 * index + 2;
             int smallest = index;
 
-            if (left < size && heap[left] < heap[smallest]) {
-                smallest = left;
+            if (left < size) {
+                ///
+                comparisons++;
+                ///
+
+                if (heap[left] < heap[smallest]) {
+                    smallest = left;
+                }
             }
 
-            if (right < size && heap[right] < heap[smallest]) {
-                smallest = right;
+            if (right < size) {
+                ///
+                comparisons++;
+                ///
+
+                if (heap[right] < heap[smallest]) {
+                    smallest = right;
+                }
             }
 
             if (smallest == index) {
@@ -101,4 +116,14 @@ public class MinHeap {
     public boolean isEmpty() {
         return size == 0;
     }
+
+    ///
+    public long getComparisons() {
+        return comparisons;
+    }
+
+    public void resetMetrics() {
+        comparisons = 0;
+    }
+    ///
 }

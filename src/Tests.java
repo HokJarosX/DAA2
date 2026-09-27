@@ -4,6 +4,7 @@ public class Tests {
         testDynamicArray();
         testLinkedList();
         testMinHeap();
+        System.out.println("All tests completed successfully");
     }
 
     private static void testDynamicArray() {
@@ -107,4 +108,5 @@ public class Tests {
         for (int i = 100_000; i >= 0; i--)
             heap.insert(i);
     }
+
 }

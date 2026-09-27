@@ -3,6 +3,11 @@ public class LinkedList {
     private Node head;
     private int size;
 
+    ///
+    private long accesses;
+    private long comparisons;
+    ///
+
     private static class Node {
         int value;
         Node next;
@@ -12,7 +17,6 @@ public class LinkedList {
         }
     }
 
-    // add(x)
     public void add(int value) {
         Node newNode = new Node(value);
 
@@ -22,6 +26,10 @@ public class LinkedList {
             Node current = head;
 
             while (current.next != null) {
+                ///
+                accesses++;
+                ///
+
                 current = current.next;
             }
 
@@ -31,7 +39,6 @@ public class LinkedList {
         size++;
     }
 
-    // add(index, x)
     public void add(int index, int value) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException();
@@ -46,6 +53,10 @@ public class LinkedList {
             Node current = head;
 
             for (int i = 0; i < index - 1; i++) {
+                ///
+                accesses++;
+                ///
+
                 current = current.next;
             }
 
@@ -56,7 +67,6 @@ public class LinkedList {
         size++;
     }
 
-    // remove(index)
     public int remove(int index) {
         checkIndex(index);
 
@@ -69,6 +79,10 @@ public class LinkedList {
             Node current = head;
 
             for (int i = 0; i < index - 1; i++) {
+                ///
+                accesses++;
+                ///
+
                 current = current.next;
             }
 
@@ -80,24 +94,36 @@ public class LinkedList {
         return removedValue;
     }
 
-    // get(index)
     public int get(int index) {
         checkIndex(index);
 
         Node current = head;
 
+        ///
+        accesses++;
+        ///
+
         for (int i = 0; i < index; i++) {
             current = current.next;
+
+            ///
+            accesses++;
+            ///
         }
 
         return current.value;
     }
 
-    // contains(x)
     public boolean contains(int value) {
         Node current = head;
 
         while (current != null) {
+
+            ///
+            accesses++;
+            comparisons++;
+            ///
+
             if (current.value == value) {
                 return true;
             }
@@ -117,4 +143,19 @@ public class LinkedList {
     public int size() {
         return size;
     }
+
+    ///
+    public long getAccesses() {
+        return accesses;
+    }
+
+    public long getComparisons() {
+        return comparisons;
+    }
+
+    public void resetMetrics() {
+        accesses = 0;
+        comparisons = 0;
+    }
+    ///
 }
